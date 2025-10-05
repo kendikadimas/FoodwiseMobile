@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Foodwise</string>
+    <string-array name="activity_levels">
+        <item>Jarang Olahraga</item>
+        <item>Olahraga Ringan</item>
+        <item>Olahraga Sedang</item>
+        <item>Olahraga Aktif</item>
+    </string-array>
+    <string-array name="goals">
+        <item>Menurunkan Berat Badan</item>
+        <item>Menjaga Berat Badan</item>
+        <item>Menaikkan Berat Badan</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
+

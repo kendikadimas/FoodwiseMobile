@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="com.unsoed.foodwise.ui.DashboardFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_nav_card"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:cardBackgroundColor="#8BC34A"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:id="@+id/nav_home"
+                style="@style/BottomNavItemContainer">
+                <ImageView
+                    style="@style/BottomNavItemIcon"
+                    android:src="@drawable/ic_home"/>
+                <TextView
+                    style="@style/BottomNavItemText"
+                    android:text="Beranda"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_progress"
+                style="@style/BottomNavItemContainer">
+                <ImageView
+                    style="@style/BottomNavItemIcon"
+                    android:src="@drawable/ic_progress"/>
+                <TextView
+                    style="@style/BottomNavItemText"
+                    android:text="Progres"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/nav_kuliner"
+                style="@style/BottomNavItemContainer">
+                <ImageView
+                    style="@style/BottomNavItemIcon"
+                    android:src="@drawable/ic_kuliner"/>
+                <TextView
+                    style="@style/BottomNavItemText"
+                    android:text="Kuliner"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_recipe"
+                style="@style/BottomNavItemContainer">
+                <ImageView
+                    style="@style/BottomNavItemIcon"
+                    android:src="@drawable/ic_recipe"/>
+                <TextView
+                    style="@style/BottomNavItemText"
+                    android:text="Resep"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:src="@drawable/ic_add"
+        app:tint="#8BC34A"
+        app:elevation="10dp"
+        app:layout_constraintTop_toTopOf="@id/bottom_nav_card"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_card"
+        app:layout_constraintStart_toStartOf="@id/bottom_nav_card"
+        app:layout_constraintEnd_toEndOf="@id/bottom_nav_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

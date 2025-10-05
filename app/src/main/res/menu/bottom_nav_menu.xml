@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"/>
+    <item
+        android:id="@+id/nav_progress"
+        android:icon="@drawable/ic_progress"
+        android:title="Progres"/>
+    <item
+        android:id="@+id/placeholder"
+        android:title=""
+        android:enabled="false"/>
+    <item
+        android:id="@+id/nav_kuliner"
+        android:icon="@drawable/ic_kuliner"
+        android:title="Kuliner"/>
+    <item
+        android:id="@+id/nav_recipe"
+        android:icon="@drawable/ic_recipe"
+        android:title="Resep"/>
+</menu>

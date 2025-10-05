@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/tv_added_ingredient_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Dada Ayam"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/et_quantity"
+        android:layout_width="60dp"
+        android:layout_height="48dp"
+        android:inputType="number"
+        android:text="200"
+        android:gravity="center"
+        android:background="@drawable/search_bar_background"
+        android:padding="8dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="g"
+        android:layout_marginStart="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_calculated_calories"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="330 kkal"
+        android:gravity="end"
+        android:textStyle="bold"/>
+
+    <ImageButton
+        android:id="@+id/btn_remove_ingredient"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+</LinearLayout>
