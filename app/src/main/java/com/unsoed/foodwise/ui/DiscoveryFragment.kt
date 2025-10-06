@@ -55,9 +55,9 @@ class DiscoveryFragment : Fragment() {
 
     private fun setupFeaturedCarousel() {
         val bannerData = listOf(
-            BannerItem("Bakso Urat Pedas", "400 kkal", R.drawable.ic_launcher_background),
-            BannerItem("Salad Sayur Segar", "210 kkal", R.drawable.ic_launcher_background),
-            BannerItem("Ayam Bakar Madu", "350 kkal", R.drawable.ic_launcher_background)
+            BannerItem("Bakso Urat Pedas", "400 kkal", R.drawable.ic_placeholder_food),
+            BannerItem("Salad Sayur Segar", "210 kkal", R.drawable.ic_placeholder_food),
+            BannerItem("Ayam Bakar Madu", "350 kkal", R.drawable.ic_placeholder_food)
         )
         binding.featuredViewPager.adapter = FeaturedBannerAdapter(bannerData)
         setupAutoSlider()

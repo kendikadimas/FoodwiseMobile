@@ -65,4 +65,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             giziDao.deleteAllData()
         }
     }
+
+    fun deleteDailyLog(dailyLog: DailyLog) {
+        viewModelScope.launch {
+            giziDao.deleteDailyLog(dailyLog)
+        }
+    }
 }

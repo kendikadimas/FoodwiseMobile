@@ -2,6 +2,7 @@ package com.unsoed.foodwise.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -34,6 +35,8 @@ interface GiziDao {
     @Query("SELECT * FROM daily_logs WHERE date(date/1000, 'unixepoch', 'localtime') = date('now','localtime')")
     fun getLogsForToday(): LiveData<List<DailyLog>>
 
+    @Delete
+    suspend fun deleteDailyLog(dailyLog: DailyLog)
 
     // --- Perintah untuk WeightHistory ---
     @Insert

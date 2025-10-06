@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unsoed.foodwise.R
+import com.unsoed.foodwise.data.DailyLog
 import com.unsoed.foodwise.data.FoodItem
 import com.unsoed.foodwise.data.UserProfile
 import com.unsoed.foodwise.databinding.FragmentDiaryBinding
@@ -56,21 +57,33 @@ class DiaryFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
+        // Setup untuk Sarapan
         breakfastAdapter = LoggedFoodAdapter(emptyList())
+        breakfastAdapter.setOnDeleteClickListener { dailyLog ->
+            viewModel.deleteDailyLog(dailyLog)
+        }
         binding.rvBreakfast.apply {
             adapter = breakfastAdapter
             layoutManager = LinearLayoutManager(requireContext())
             isNestedScrollingEnabled = false
         }
 
+        // Setup untuk Makan Siang
         lunchAdapter = LoggedFoodAdapter(emptyList())
+        lunchAdapter.setOnDeleteClickListener { dailyLog ->
+            viewModel.deleteDailyLog(dailyLog)
+        }
         binding.rvLunch.apply {
             adapter = lunchAdapter
             layoutManager = LinearLayoutManager(requireContext())
             isNestedScrollingEnabled = false
         }
 
+        // Setup untuk Makan Malam
         dinnerAdapter = LoggedFoodAdapter(emptyList())
+        dinnerAdapter.setOnDeleteClickListener { dailyLog ->
+            viewModel.deleteDailyLog(dailyLog)
+        }
         binding.rvDinner.apply {
             adapter = dinnerAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -81,15 +94,16 @@ class DiaryFragment : Fragment() {
     private fun setupClickListeners() {
         binding.btnAddBreakfast.setOnClickListener {
             currentMealType = "Sarapan"
-            foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
+            // Ganti dengan activity Anda untuk memilih makanan
+             foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
         }
         binding.btnAddLunch.setOnClickListener {
             currentMealType = "Makan Siang"
-            foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
+             foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
         }
         binding.btnAddDinner.setOnClickListener {
             currentMealType = "Makan Malam"
-            foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
+             foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
         }
     }
 
@@ -107,45 +121,41 @@ class DiaryFragment : Fragment() {
         }
     }
 
-    private fun updateMealLists(logs: List<com.unsoed.foodwise.data.DailyLog>, allFoods: List<FoodItem>) {
-        val breakfastFoods = logs.filter { it.mealType == "Sarapan" }
-            .mapNotNull { log -> allFoods.find { it.foodId == log.foodId } }
-        breakfastAdapter.updateData(breakfastFoods)
+    // Fungsi ini diubah untuk memproses data gabungan
+    private fun updateMealLists(logs: List<DailyLog>, allFoods: List<FoodItem>) {
+        val breakfastItems = logs.filter { it.mealType == "Sarapan" }
+            .mapNotNull { log ->
+                allFoods.find { it.foodId == log.foodId }?.let { food ->
+                    LoggedItem(log, food)
+                }
+            }
+        breakfastAdapter.updateData(breakfastItems)
 
-        val lunchFoods = logs.filter { it.mealType == "Makan Siang" }
-            .mapNotNull { log -> allFoods.find { it.foodId == log.foodId } }
-        lunchAdapter.updateData(lunchFoods)
+        val lunchItems = logs.filter { it.mealType == "Makan Siang" }
+            .mapNotNull { log ->
+                allFoods.find { it.foodId == log.foodId }?.let { food ->
+                    LoggedItem(log, food)
+                }
+            }
+        lunchAdapter.updateData(lunchItems)
 
-        val dinnerFoods = logs.filter { it.mealType == "Makan Malam" }
-            .mapNotNull { log -> allFoods.find { it.foodId == log.foodId } }
-        dinnerAdapter.updateData(dinnerFoods)
+        val dinnerItems = logs.filter { it.mealType == "Makan Malam" }
+            .mapNotNull { log ->
+                allFoods.find { it.foodId == log.foodId }?.let { food ->
+                    LoggedItem(log, food)
+                }
+            }
+        dinnerAdapter.updateData(dinnerItems)
     }
+
 
     private fun updateSummaryCard(consumedFoods: List<FoodItem>, user: UserProfile) {
         val consumedCalories = consumedFoods.sumOf { it.calories }
-        val consumedCarbs = consumedFoods.sumOf { it.carbs }
-        val consumedProtein = consumedFoods.sumOf { it.protein }
-        val consumedFat = consumedFoods.sumOf { it.fat }
-
         val targetCalories = calculateTDEE(user)
-        // Hitung target makro secara dinamis
-        val targetCarbs = (targetCalories * 0.50 / 4).toInt() // 50% karbo
-        val targetProtein = (targetCalories * 0.20 / 4).toInt() // 20% protein
-        val targetFat = (targetCalories * 0.30 / 9).toInt() // 30% lemak
 
-        // Update UI
         binding.tvTotalCalories.text = consumedCalories.toString()
         binding.tvTargetCalories.text = "/$targetCalories kkal"
         binding.progressBarCalories.progress = if(targetCalories > 0) (consumedCalories * 100) / targetCalories else 0
-
-//        binding.tvCarbsValue.text = "${consumedCarbs.roundToInt()}/${targetCarbs}g"
-//        binding.progressBarCarbs.progress = if(targetCarbs > 0) (consumedCarbs.toInt() * 100 / targetCarbs).coerceIn(0, 100) else 0
-//
-//        binding.tvProteinValue.text = "${consumedProtein.roundToInt()}/${targetProtein}g"
-//        binding.progressBarProtein.progress = if(targetProtein > 0) (consumedProtein.toInt() * 100 / targetProtein).coerceIn(0, 100) else 0
-//
-//        binding.tvFatValue.text = "${consumedFat.roundToInt()}/${targetFat}g"
-//        binding.progressBarFat.progress = if(targetFat > 0) (consumedFat.toInt() * 100 / targetFat).coerceIn(0, 100) else 0
     }
 
     private fun calculateTDEE(user: UserProfile): Int {

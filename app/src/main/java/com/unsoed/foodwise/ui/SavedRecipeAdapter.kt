@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.unsoed.foodwise.databinding.ItemSavedRecipeBinding
 
 class SavedRecipeAdapter(
-    private var items: List<RecipeWithDetails>
+    private var recipes: List<RecipeDisplayModel>
 ) : RecyclerView.Adapter<SavedRecipeAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemSavedRecipeBinding) : RecyclerView.ViewHolder(binding.root)
@@ -20,21 +20,23 @@ class SavedRecipeAdapter(
         return ViewHolder(binding)
     }
 
+    override fun getItemCount() = recipes.size
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.binding.tvRecipeName.text = item.recipe.name
+        val detailedRecipe = recipes[position]
+        holder.binding.tvRecipeName.text = detailedRecipe.recipe.name
 
-        val caloriesPerServing = if (item.recipe.servingCount > 0)
-            item.totalCalories / item.recipe.servingCount
-        else 0
+//        val caloriesPerServing = if (recipes.recipe.servingCount > 0)
+//            recipes.totalCalories / recipes.recipe.servingCount
+//        else 0
 
-        holder.binding.tvRecipeDetails.text = "$caloriesPerServing kkal per porsi"
+        holder.binding.tvRecipeDetails.text = "${detailedRecipe.caloriesPerServing} kkal per porsi"
     }
 
-    override fun getItemCount() = items.size
 
-    fun updateData(newItems: List<RecipeWithDetails>) {
-        items = newItems
+
+    fun updateData(newRecipes: List<RecipeDisplayModel>) {
+        recipes = newRecipes
         notifyDataSetChanged()
     }
 }

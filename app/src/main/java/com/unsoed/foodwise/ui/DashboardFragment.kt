@@ -144,6 +144,9 @@ class DashboardFragment : Fragment() {
         binding.cardRecipe.setOnClickListener { mainActivity?.loadFragment(RecipeFragment()) }
         binding.cardKuliner.setOnClickListener { mainActivity?.loadFragment(DiscoveryFragment()) }
         binding.cardNextMeal.setOnClickListener { mainActivity?.loadFragment(DiaryFragment()) }
+        binding.ivProfilePic.setOnClickListener {
+            mainActivity?.loadFragment(ProfileFragment())
+        }
     }
 
     private fun calculateTDEE(user: UserProfile): Int {

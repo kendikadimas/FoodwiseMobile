@@ -5,10 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.unsoed.foodwise.R
+import com.unsoed.foodwise.data.DailyLog
 import com.unsoed.foodwise.data.FoodItem
 import com.unsoed.foodwise.databinding.ItemLoggedFoodBinding
 
-class LoggedFoodAdapter(private var loggedFoods: List<FoodItem>) : RecyclerView.Adapter<LoggedFoodAdapter.ViewHolder>() {
+
+data class LoggedItem(val log: DailyLog, val food: FoodItem)
+class LoggedFoodAdapter(private var loggedItems: List<LoggedItem>) : RecyclerView.Adapter<LoggedFoodAdapter.ViewHolder>() {
+
+    private var onDeleteClickListener: ((DailyLog) -> Unit)? = null
+
+    fun setOnDeleteClickListener(listener: (DailyLog) -> Unit) {
+        onDeleteClickListener = listener
+    }
 
     class ViewHolder(val binding: ItemLoggedFoodBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -17,23 +26,29 @@ class LoggedFoodAdapter(private var loggedFoods: List<FoodItem>) : RecyclerView.
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = loggedFoods.size
+    override fun getItemCount() = loggedItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val food = loggedFoods[position]
+        val loggedItem = loggedItems[position]
+        val food = loggedItem.food
+        val log = loggedItem.log
+
         holder.binding.tvFoodName.text = food.name
         holder.binding.tvFoodCalories.text = "${food.calories} kkal"
-        holder.binding.tvFoodServing.text = "1 porsi" // TODO: Ganti dengan data porsi asli
+        holder.binding.tvFoodServing.text = "${log.servingSize} porsi" // TODO: Ganti dengan data porsi asli
 
         holder.binding.ivFoodImage.load(food.imageUrl) {
             crossfade(true)
-            placeholder(R.drawable.ic_launcher_background) // Ganti dengan placeholder yang sesuai
-            error(R.drawable.ic_launcher_background)
+            placeholder(R.drawable.ic_launcher_foreground) // Ganti dengan placeholder yang sesuai
+            error(R.drawable.ic_launcher_foreground)
+        }
+        holder.binding.btnDeleteLog.setOnClickListener {
+            onDeleteClickListener?.invoke(log)
         }
     }
 
-    fun updateData(newLoggedFoods: List<FoodItem>) {
-        loggedFoods = newLoggedFoods
+    fun updateData(newLoggedItems: List<LoggedItem>) {
+        loggedItems = newLoggedItems
         notifyDataSetChanged()
     }
 }

@@ -44,10 +44,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#1E1E1E"
+        android:layout_marginEnd="8dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete_log"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="156 kkal" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_log"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@android:color/holo_red_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Hapus item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="darker_gray">#666666</color>
+
+        <!-- Warna Utama Aplikasi -->
+        <color name="green_primary">#8BC34A</color>
+        <color name="green_dark">#56AB2F</color>
+        <color name="green_accent">#7CB342</color>
+
+        <!-- Warna Teks Standar -->
+        <color name="text_primary">#1E1E1E</color>
+        <color name="text_secondary">#666666</color>
+        <color name="text_disabled">#999999</color>
+
+        <!-- Warna Dasar -->
+        <color name="black">#FF000000</color>
+        <color name="white">#FFFFFFFF</color>
+
+        <!-- Warna Latar Belakang & Komponen -->
+        <color name="background_light_gray">#F5F5F5</color>
+        <color name="background_off_white">#F7F9FC</color>
+        <color name="card_background">#FFFFFF</color>
+
+        <!-- Warna Aksen Lainnya -->
+        <color name="red_error">#F44336</color>
+        <color name="orange_warning_dark">#E65100</color>
+        <color name="orange_warning_light">#FF6F00</color>
+
 </resources>
