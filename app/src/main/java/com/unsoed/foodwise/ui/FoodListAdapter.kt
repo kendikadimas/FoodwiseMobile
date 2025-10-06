@@ -3,10 +3,10 @@ package com.unsoed.foodwise.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.unsoed.foodwise.R
 import com.unsoed.foodwise.data.FoodItem
 import com.unsoed.foodwise.databinding.ItemFoodBinding
+import com.unsoed.foodwise.util.loadFoodImage
 
 // 1. Ubah parameter constructor menjadi List<FoodItem>
 class FoodListAdapter(private var foodList: List<FoodItem>) : RecyclerView.Adapter<FoodListAdapter.FoodViewHolder>() {
@@ -26,12 +26,8 @@ class FoodListAdapter(private var foodList: List<FoodItem>) : RecyclerView.Adapt
         holder.binding.tvFoodName.text = currentFood.name
         holder.binding.tvFoodCalories.text = "${currentFood.calories} kkal"
 
-        // Muat gambar dari imageUrl (jika ada)
-        holder.binding.ivFoodImage.load(currentFood.imageUrl) {
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background)
-            error(R.drawable.ic_launcher_background)
-        }
+        // Pakai extension untuk dukung drawable name atau URL
+        holder.binding.ivFoodImage.loadFoodImage(currentFood.imageUrl)
 
         // Set listener di sini
         holder.itemView.setOnClickListener {

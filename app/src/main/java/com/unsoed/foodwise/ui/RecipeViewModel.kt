@@ -9,14 +9,14 @@ import com.unsoed.foodwise.data.*
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-// Data class untuk ringkasan nutrisi
+// Data class for nutrition summary
 data class NutritionSummary(
     val totalCalories: Int = 0,
     val caloriesPerServing: Int = 0
 )
 
-// PERUBAHAN: Nama kelas diubah untuk menghindari konflik dengan file RecipeWithDetails.kt
-// Kelas ini digunakan untuk menampung data yang sudah diolah untuk ditampilkan di UI.
+// Changed class name to avoid conflict with RecipeWithDetails.kt
+// This class holds processed data for UI display.
 data class RecipeDisplayModel(
     val recipe: Recipe,
     val totalCalories: Int,
@@ -28,25 +28,25 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     private val giziDao: GiziDao = AppDatabase.getDatabase(application).giziDao()
 
-    // Hasil pencarian bahan
+    // Search results for ingredients
     private val _searchResults = MutableLiveData<List<FoodItem>>()
     val searchResults: LiveData<List<FoodItem>> = _searchResults
 
-    // Bahan yang ditambahkan ke resep (Key: FoodItem, Value: berat dalam gram)
+    // Ingredients added to the recipe (Key: FoodItem, Value: weight in grams)
     private val _addedIngredients = MutableLiveData<MutableMap<FoodItem, Int>>(mutableMapOf())
     val addedIngredients: LiveData<MutableMap<FoodItem, Int>> = _addedIngredients
 
-    // Jumlah porsi
+    // Number of servings
     private val _servingCount = MutableLiveData(1)
 
-    // Ringkasan nutrisi
+    // Nutrition summary
     private val _nutritionSummary = MutableLiveData<NutritionSummary>()
     val nutritionSummary: LiveData<NutritionSummary> = _nutritionSummary
 
-    // Daftar resep yang disimpan
+    // List of saved recipes
     val savedRecipes: LiveData<List<Recipe>> = giziDao.getAllRecipes()
 
-    // PERUBAHAN: LiveData sekarang menggunakan RecipeDisplayModel
+    // LiveData now uses RecipeDisplayModel
     private val _savedRecipesWithDetails = MutableLiveData<List<RecipeDisplayModel>>()
     val savedRecipesWithDetails: LiveData<List<RecipeDisplayModel>> = _savedRecipesWithDetails
 
@@ -63,54 +63,53 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun addIngredient(foodItem: FoodItem) {
         val currentMap = _addedIngredients.value ?: mutableMapOf()
         if (!currentMap.containsKey(foodItem)) {
-            currentMap[foodItem] = 100 // Default 100 gram
-            _addedIngredients.value = currentMap
+            currentMap[foodItem] = 100 // Default 100 grams
+            _addedIngredients.postValue(currentMap)
             calculateNutrition()
         }
     }
 
+
+
     fun removeIngredient(foodItem: FoodItem) {
         val currentMap = _addedIngredients.value ?: return
         currentMap.remove(foodItem)
-        _addedIngredients.value = currentMap
+        _addedIngredients.postValue(currentMap)
         calculateNutrition()
     }
 
 
     fun updateIngredientQuantity(foodItem: FoodItem, grams: Int) {
         val currentMap = _addedIngredients.value ?: return
-        if (currentMap.containsKey(foodItem)) {
+        if (currentMap.containsKey(foodItem) && currentMap[foodItem] != grams) {
             currentMap[foodItem] = grams
-            _addedIngredients.value = currentMap // Trigger update
+            _addedIngredients.postValue(currentMap) // Use postValue for thread safety
             calculateNutrition()
         }
     }
 
     fun updateServingCount(servings: Int) {
-        _servingCount.value = if (servings > 0) servings else 1
-        calculateNutrition()
+        val currentServings = _servingCount.value ?: 1
+        if (currentServings != servings) {
+            _servingCount.postValue(if (servings > 0) servings else 1)
+            calculateNutrition()
+        }
     }
 
     private fun calculateNutrition() {
         val ingredients = _addedIngredients.value ?: emptyMap()
         val servings = _servingCount.value ?: 1
 
-        // Menghitung total kalori dasar dari semua bahan yang ditambahkan
         val baseTotalCalories = ingredients.entries.sumOf { (foodItem, grams) ->
             (foodItem.calories / 100.0) * grams
         }.roundToInt()
 
-        // ================== PERUBAHAN LOGIKA BUG ==================
-        // Kalikan kalori dasar dengan jumlah porsi untuk mendapatkan total akhir.
         val finalTotalCalories = baseTotalCalories * servings
-        // ==========================================================
 
-        // "Total Resep" akan menampilkan hasil perkalian.
-        // "Per Porsi" akan menampilkan kalori dasar untuk 1 porsi.
-        _nutritionSummary.value = NutritionSummary(
+        _nutritionSummary.postValue(NutritionSummary(
             totalCalories = finalTotalCalories,
             caloriesPerServing = baseTotalCalories
-        )
+        ))
     }
 
     fun saveRecipe(recipeName: String) {
@@ -132,7 +131,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun calculateSavedRecipesDetails(allFoodItems: List<FoodItem>) {
         viewModelScope.launch {
             val recipes = savedRecipes.value ?: return@launch
-            // PERUBAHAN: List sekarang menggunakan RecipeDisplayModel
             val detailedList = mutableListOf<RecipeDisplayModel>()
 
             for (recipe in recipes) {
@@ -145,7 +143,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
                 val caloriesPerServing = if (recipe.servingCount > 0) totalCalories / recipe.servingCount else 0
 
-                // PERUBAHAN: Membuat instance dari RecipeDisplayModel
                 detailedList.add(
                     RecipeDisplayModel(
                         recipe = recipe,
@@ -160,10 +157,9 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun clearRecipeData() {
-        _searchResults.value = emptyList()
-        _addedIngredients.value = mutableMapOf()
-        _servingCount.value = 1
+        _searchResults.postValue(emptyList())
+        _addedIngredients.postValue(mutableMapOf())
+        _servingCount.postValue(1)
         calculateNutrition()
     }
 }
-

@@ -3,10 +3,9 @@ package com.unsoed.foodwise.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.unsoed.foodwise.R
 import com.unsoed.foodwise.data.FoodItem
-import com.unsoed.foodwise.databinding.ItemFoodCardBinding // Pastikan nama file layout item Anda adalah item_food_card.xml
+import com.unsoed.foodwise.databinding.ItemFoodCardBinding
+import com.unsoed.foodwise.util.loadFoodImage
 
 class FoodCarouselAdapter(private var foodItems: List<FoodItem>) : RecyclerView.Adapter<FoodCarouselAdapter.ViewHolder>() {
 
@@ -21,13 +20,8 @@ class FoodCarouselAdapter(private var foodItems: List<FoodItem>) : RecyclerView.
         val item = foodItems[position]
         holder.binding.foodName.text = item.name
         holder.binding.foodCalories.text = "${item.calories} kkal"
-
-        // Muat gambar dari URL menggunakan Coil
-        holder.binding.cardImage.load(item.imageUrl) {
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_background) // Ganti dengan gambar placeholder Anda
-            error(R.drawable.ic_launcher_background)
-        }
+        // Pakai extension agar bisa pakai nama drawable atau URL
+        holder.binding.cardImage.loadFoodImage(item.imageUrl)
     }
 
     override fun getItemCount(): Int = foodItems.size

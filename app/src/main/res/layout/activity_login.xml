@@ -4,85 +4,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/green_accent"
+    android:background="@drawable/bg_login_gradient"
+    android:fitsSystemWindows="true"
     tools:context=".ui.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="32dp">
+        android:gravity="center_horizontal"
+        android:padding="24dp"
+        android:clipToPadding="false">
 
-        <!-- Logo & Welcome Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Logo / Brand -->
+<!--        <ImageView-->
+<!--            android:layout_width="96dp"-->
+<!--            android:layout_height="96dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:layout_marginBottom="12dp"-->
+<!--            android:src="@drawable/ic_launcher_foreground"-->
+<!--            android:contentDescription="Logo"-->
+<!--            android:background="@drawable/login_logo_circle_bg"-->
+<!--            android:padding="12dp" />-->
+
+        <!-- Welcome Headings -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:text="Selamat Datang Kembali!"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:paddingTop="100dp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Masuk untuk melanjutkan perjalanan sehatmu."
+            android:textSize="15sp"
+            android:textColor="@color/text_secondary"
             android:gravity="center"
-            android:layout_marginBottom="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="@color/green_primary"
-                android:layout_marginBottom="16dp"
-                android:elevation="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Selamat Datang Kembali!"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:paddingTop="20dp"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Masuk untuk melanjutkan perjalanan sehatmu."
-                android:textSize="16sp"
-                android:textColor="@color/text_secondary"
-                android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                android:layout_marginBottom="32dp"/>
-
-        </LinearLayout>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="28dp" />
 
         <!-- Login Form Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/card_background"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            android:backgroundTint="@color/black"
+            app:cardBackgroundColor="@color/black">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="28dp">
+                android:background="@drawable/login_card_inner_bg"
+                android:padding="26dp">
 
                 <!-- Email Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="18dp"
+                    app:startIconDrawable="@android:drawable/ic_dialog_email"
+                    app:startIconTint="@color/green_dark"
+                    app:hintTextColor="@color/text_secondary"
                     app:boxStrokeColor="@color/green_dark"
                     app:boxStrokeWidth="2dp"
-                    app:hintTextColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusBottomEnd="14dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,8 +92,7 @@
                         android:textSize="16sp"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_secondary"
-                        android:background="@android:color/transparent"/>
-
+                        android:imeOptions="actionNext"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Password Input -->
@@ -101,16 +100,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="28dp"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                    app:startIconTint="@color/green_dark"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/green_dark"
+                    app:hintTextColor="@color/text_secondary"
                     app:boxStrokeColor="@color/green_dark"
                     app:boxStrokeWidth="2dp"
-                    app:hintTextColor="@color/black"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusBottomEnd="14dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,50 +123,41 @@
                         android:textSize="16sp"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_secondary"
-                        android:background="@android:color/transparent"/>
-
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Login Button -->
+                <!-- Login Button (unchanged ID) -->
                 <Button
                     android:id="@+id/login_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:text="Masuk"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/green_dark"
-                    android:minHeight="56dp"
-                    android:elevation="4dp"
-                    android:padding="12dp"/>
-
+                    android:stateListAnimator="@null"/>
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
-        <!-- Signup Link -->
+        <!-- Signup Link (unchanged ID) -->
         <TextView
             android:id="@+id/signup_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Belum punya akun? Daftar di sini"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="@color/green_dark"
             android:textStyle="bold"
-            android:padding="16dp"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"
-            android:layout_marginTop="8dp"/>
+            android:focusable="true"/>
 
-        <!-- Decorative Bottom Element -->
-<!--        <View-->
-<!--            android:layout_width="60dp"-->
-<!--            android:layout_height="4dp"-->
-<!--            android:background="@drawable/bottom_decoration"-->
-<!--            android:layout_marginTop="24dp"/>-->
-
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="32dp"/>
     </LinearLayout>
-
 </ScrollView>

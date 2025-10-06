@@ -3,11 +3,11 @@ package com.unsoed.foodwise.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.unsoed.foodwise.R
 import com.unsoed.foodwise.data.DailyLog
 import com.unsoed.foodwise.data.FoodItem
 import com.unsoed.foodwise.databinding.ItemLoggedFoodBinding
+import com.unsoed.foodwise.util.loadFoodImage
 
 
 data class LoggedItem(val log: DailyLog, val food: FoodItem)
@@ -35,13 +35,11 @@ class LoggedFoodAdapter(private var loggedItems: List<LoggedItem>) : RecyclerVie
 
         holder.binding.tvFoodName.text = food.name
         holder.binding.tvFoodCalories.text = "${food.calories} kkal"
-        holder.binding.tvFoodServing.text = "${log.servingSize} porsi" // TODO: Ganti dengan data porsi asli
+        holder.binding.tvFoodServing.text = "${log.servingSize} porsi"
 
-        holder.binding.ivFoodImage.load(food.imageUrl) {
-            crossfade(true)
-            placeholder(R.drawable.ic_launcher_foreground) // Ganti dengan placeholder yang sesuai
-            error(R.drawable.ic_launcher_foreground)
-        }
+        // Pakai extension
+        holder.binding.ivFoodImage.loadFoodImage(food.imageUrl)
+
         holder.binding.btnDeleteLog.setOnClickListener {
             onDeleteClickListener?.invoke(log)
         }

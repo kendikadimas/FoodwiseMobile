@@ -93,7 +93,7 @@ class DiaryFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddBreakfast.setOnClickListener {
-            currentMealType = "Sarapan"
+            currentMealType = "Sarapan Pagi"
             // Ganti dengan activity Anda untuk memilih makanan
              foodSelectionLauncher.launch(Intent(requireContext(), FoodListActivity::class.java))
         }

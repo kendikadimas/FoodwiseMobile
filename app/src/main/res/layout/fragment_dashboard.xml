@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F9FC"
+    android:background="@drawable/dashboard_background"
+    android:fadeScrollbars="false"
+    android:overScrollMode="never"
     tools:context=".ui.DashboardFragment">
 
     <LinearLayout
@@ -12,7 +14,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:layout_marginBottom="120dp">
+        android:layout_marginBottom="120dp"
+        android:clipToPadding="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,6 +30,7 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#1E1E1E"
+                android:fontFamily="sans-serif-medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,36 +40,44 @@
                 android:layout_height="wrap_content"
                 android:text="Kamis, 2 Oktober 2025"
                 android:textColor="#666"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_greeting" />
 
             <ImageView
                 android:id="@+id/iv_profile_pic"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:src="@drawable/ic_user"
+                android:padding="6dp"
+                android:background="@drawable/profile_circle_bg"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Foto Profil"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Kartu Kalori -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#56AB2F">
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="20dp"
+                android:background="@drawable/card_calorie_gradient"
+                android:padding="22dp"
                 android:gravity="center_vertical">
 
                 <LinearLayout
@@ -79,14 +91,17 @@
                         android:layout_height="wrap_content"
                         android:text="Kalori Tersisa"
                         android:textColor="#FFFFFF"
-                        android:alpha="0.8"/>
+                        android:textSize="14sp"
+                        android:alpha="0.85"/>
                     <TextView
                         android:id="@+id/tv_calories_remaining"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="980"
-                        android:textSize="48sp"
+                        android:textSize="44sp"
                         android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="-0.02"
                         android:textColor="#FFFFFF"/>
                     <TextView
                         android:id="@+id/tv_calories_target"
@@ -94,24 +109,28 @@
                         android:layout_height="wrap_content"
                         android:text="dari 2.200 kkal"
                         android:textColor="#FFFFFF"
+                        android:textSize="14sp"
                         android:alpha="0.9"/>
                 </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progress_bar_calories"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="104dp"
+                    android:layout_height="104dp"
+                    android:indeterminate="false"
                     android:max="100"
                     android:progress="67"
-                    android:progressDrawable="@drawable/progress_ring_drawable" />
+                    android:progressDrawable="@drawable/progress_ring_drawable"
+                    android:layout_marginStart="8dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Kartu Next Meal & Water -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -120,12 +139,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="4dp">
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                android:foreground="?attr/selectableItemBackground">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
                     <TextView
                         android:id="@+id/tv_greeting_title"
                         android:layout_width="wrap_content"
@@ -138,7 +159,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apa yang kamu makan?"
-                        android:textColor="#666"/>
+                        android:textColor="#666"
+                        android:textSize="13sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -149,13 +171,15 @@
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="#E6F4FF"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@android:color/transparent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
+                    android:background="@drawable/card_water_bg"
                     android:padding="16dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -176,32 +200,38 @@
                         <Button
                             android:id="@+id/btn_remove_water"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="44dp"
                             android:layout_weight="1"
-                            android:text="-"/>
+                            android:text="-"
+                            android:background="@drawable/btn_outline"
+                            android:textColor="#2F6F2B"/>
                         <Button
                             android:id="@+id/btn_add_water"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="44dp"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
-                            android:text="+"/>
+                            android:text="+"
+                            android:background="@drawable/btn_filled_green"
+                            android:textColor="#FFFFFF"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
+        <!-- Kartu Tip -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#FFFBE6"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:background="@drawable/card_tip_bg"
                 android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="24dp"
@@ -213,7 +243,8 @@
                     android:layout_height="wrap_content"
                     android:text="Pilih lauk yang dipanggang daripada digoreng untuk mengurangi lemak jenuh."
                     android:layout_marginStart="12dp"
-                    android:textColor="#7A6200"/>
+                    android:textColor="#7A6200"
+                    android:textSize="13sp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -224,25 +255,28 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="12dp"/>
 
+        <!-- Grid Fitur -->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:rowCount="2"
-            >
+            android:useDefaultMargins="false">
 
+            <!-- Card Fitur (ID tidak diubah) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_diary" android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp"
+                android:foreground="?attr/selectableItemBackground">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="18dp"
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
@@ -262,12 +296,13 @@
                 android:id="@+id/card_progress" android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp"
+                android:foreground="?attr/selectableItemBackground">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="18dp"
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
@@ -287,12 +322,13 @@
                 android:id="@+id/card_recipe" android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp"
+                android:foreground="?attr/selectableItemBackground">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="18dp"
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView
@@ -312,12 +348,13 @@
                 android:id="@+id/card_kuliner" android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp"
+                android:foreground="?attr/selectableItemBackground">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="18dp"
                     android:orientation="vertical"
                     android:gravity="center">
                     <ImageView

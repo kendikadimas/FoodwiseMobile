@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Minimum height for each meal card container (Diary screen) -->
+    <dimen name="meal_card_min_height">160dp</dimen>
+
+    <!-- (Optional) Related spacing tokens if you want to reuse later -->
+    <dimen name="spacing_screen_horizontal">24dp</dimen>
+    <dimen name="spacing_section_vertical">20dp</dimen>
+    <dimen name="meal_card_corner_radius">22dp</dimen>
+</resources>

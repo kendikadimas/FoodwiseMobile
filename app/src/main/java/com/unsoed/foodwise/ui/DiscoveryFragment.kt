@@ -36,28 +36,36 @@ class DiscoveryFragment : Fragment() {
         val makananAdapter = FoodCarouselAdapter(emptyList())
         binding.rvMakanan.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMakanan.adapter = makananAdapter
+        binding.rvMakanan.setHasFixedSize(true)
+        binding.rvMakanan.isNestedScrollingEnabled = false
 
         val minumanAdapter = FoodCarouselAdapter(emptyList())
         binding.rvMinuman.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMinuman.adapter = minumanAdapter
+        binding.rvMinuman.setHasFixedSize(true)
+        binding.rvMinuman.isNestedScrollingEnabled = false
 
         mainViewModel.allFoodItems.observe(viewLifecycleOwner) { foodList ->
-            Log.d("DiscoveryFragment", "Observed ${foodList.size} items from database.")
+            Log.d("DiscoveryFragment", "Observed ${foodList.size} total items from database.")
             if (foodList.isNotEmpty()) {
-                val makanan = foodList.filter { !it.name.contains("Jus") && !it.name.contains("Susu") }
-                val minuman = foodList.filter { it.name.contains("Jus") || it.name.contains("Susu") }
-
+                val makanan = foodList.filter { !it.name.contains("Jus", true) && !it.name.contains("Susu", true) }
+                val minuman = foodList.filter { it.name.contains("Jus", true) || it.name.contains("Susu", true) || it.name.contains("Es", true) || it.name.contains("Kopi", true) }
+                Log.d("DiscoveryFragment", "Filtered makanan=${makanan.size} minuman=${minuman.size}")
+                if (makanan.isEmpty()) Log.w("DiscoveryFragment", "Makanan list kosong setelah filter – periksa data seed")
+                if (minuman.isEmpty()) Log.w("DiscoveryFragment", "Minuman list kosong setelah filter – periksa data seed")
                 makananAdapter.updateData(makanan)
                 minumanAdapter.updateData(minuman)
+            } else {
+                Log.w("DiscoveryFragment", "Food list empty – mungkin DB belum ter-seed atau versi DB belum naik. Pastikan uninstall app setelah upgrade version.")
             }
         }
     }
 
     private fun setupFeaturedCarousel() {
         val bannerData = listOf(
-            BannerItem("Bakso Urat Pedas", "400 kkal", R.drawable.ic_placeholder_food),
-            BannerItem("Salad Sayur Segar", "210 kkal", R.drawable.ic_placeholder_food),
-            BannerItem("Ayam Bakar Madu", "350 kkal", R.drawable.ic_placeholder_food)
+            BannerItem("Bakso Urat Pedas", "400 kkal", R.drawable.ic_bakso_urat),
+            BannerItem("Salad Sayur Segar", "210 kkal", R.drawable.ic_salad_sayur),
+            BannerItem("Ayam Bakar Madu", "350 kkal", R.drawable.ic_ayam_bakar)
         )
         binding.featuredViewPager.adapter = FeaturedBannerAdapter(bannerData)
         setupAutoSlider()

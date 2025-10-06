@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/diary_background"
     android:fillViewport="true"
+    android:overScrollMode="never"
     tools:context=".ui.DiaryFragment">
 
     <LinearLayout
@@ -13,21 +14,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:paddingBottom="120dp"
-        android:layout_marginBottom="100dp">
+        android:layout_marginBottom="96dp"
+        android:clipToPadding="false">
 
+        <!-- Header Date Navigation -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="20dp"
+            android:padding="4dp"
+            android:background="@drawable/diary_header_bg"
+            android:elevation="2dp"
+            android:clipToPadding="false">
 
-            <ImageButton
-                android:id="@+id/btn_prev_day"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_back" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/btn_prev_day"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:background="@drawable/diary_nav_button_bg"-->
+<!--                android:contentDescription="Hari sebelumnya"-->
+<!--                android:src="@drawable/ic_arrow_back"-->
+<!--                android:padding="10dp" />-->
 
             <TextView
                 android:id="@+id/tv_current_date"
@@ -35,29 +43,41 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Hari Ini"
-                android:textColor="#1E1E1E"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColor="@color/text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
 
-            <ImageButton
-                android:id="@+id/btn_next_day"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_arrow_forward" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/btn_next_day"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:background="@drawable/diary_nav_button_bg"-->
+<!--                android:contentDescription="Hari berikutnya"-->
+<!--                android:src="@drawable/ic_arrow_forward"-->
+<!--                android:padding="10dp" />-->
         </RelativeLayout>
 
+        <!-- Calorie Summary Card -->
         <androidx.cardview.widget.CardView
             style="@style/Base.CardView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:clipToPadding="false"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@android:color/transparent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="24dp">
+                android:padding="28dp"
+                android:background="@drawable/diary_calorie_card_bg">
 
                 <ProgressBar
                     android:id="@+id/progress_bar_calories"
@@ -75,11 +95,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="50dp"
-                    android:textColor="#1E1E1E"
-                    android:textSize="36sp"
+                    android:layout_marginTop="52dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="40sp"
                     android:textStyle="bold"
-                    tools:text="2,980" />
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="-0.01"
+                    tools:text="2,150" />
 
                 <TextView
                     android:id="@+id/tv_target_calories"
@@ -87,48 +109,68 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_total_calories"
                     android:layout_centerHorizontal="true"
-                    android:textColor="#666"
-                    tools:text="/3000 kkal" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/progress_bar_calories"
-                    android:layout_marginTop="24dp"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:textColor="#E5FFE2"
+                    android:textSize="14sp"
+                    tools:text="/2500 kkal" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView style="@style/MealCard" android:layout_marginTop="24dp">
-            <RelativeLayout style="@style/MealCardContent">
-                <TextView style="@style/MealCardTitle" android:text="Sarapan"/>
-                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_breakfast"/>
+        <!-- Meal Cards -->
+        <androidx.cardview.widget.CardView style="@style/MealCard"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true"
+            android:foreground="?attr/selectableItemBackground">
+            <RelativeLayout style="@style/MealCardContent"
+                android:background="@drawable/diary_meal_card_bg"
+                android:padding="20dp"
+                android:minHeight="@dimen/meal_card_min_height">
+                <TextView style="@style/MealCardTitle" android:text="Sarapan" android:textColor="@color/text_primary"/>
+                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_breakfast" android:background="@drawable/diary_add_meal_btn_bg"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_breakfast"
                     style="@style/MealRecyclerView"
-                    android:layout_below="@id/btn_add_breakfast"/>
+                    android:layout_below="@id/btn_add_breakfast"
+                    android:layout_marginTop="8dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView style="@style/MealCard">
-            <RelativeLayout style="@style/MealCardContent">
-                <TextView style="@style/MealCardTitle" android:text="Makan Siang"/>
-                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_lunch"/>
+        <androidx.cardview.widget.CardView style="@style/MealCard"
+            app:cardCornerRadius="22dp"
+            android:layout_marginTop="16dp"
+            app:cardElevation="3dp"
+            android:foreground="?attr/selectableItemBackground">
+            <RelativeLayout style="@style/MealCardContent"
+                android:background="@drawable/diary_meal_card_bg"
+                android:padding="20dp"
+                android:minHeight="@dimen/meal_card_min_height">
+                <TextView style="@style/MealCardTitle" android:text="Makan Siang" android:textColor="@color/text_primary"/>
+                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_lunch" android:background="@drawable/diary_add_meal_btn_bg"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_lunch"
                     style="@style/MealRecyclerView"
-                    android:layout_below="@id/btn_add_lunch"/>
+                    android:layout_below="@id/btn_add_lunch"
+                    android:layout_marginTop="8dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView style="@style/MealCard">
-            <RelativeLayout style="@style/MealCardContent">
-                <TextView style="@style/MealCardTitle" android:text="Makan Malam"/>
-                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_dinner"/>
+        <androidx.cardview.widget.CardView style="@style/MealCard"
+            app:cardCornerRadius="22dp"
+            android:layout_marginTop="16dp"
+            app:cardElevation="3dp"
+            android:foreground="?attr/selectableItemBackground">
+            <RelativeLayout style="@style/MealCardContent"
+                android:background="@drawable/diary_meal_card_bg"
+                android:padding="20dp"
+                android:minHeight="@dimen/meal_card_min_height">
+                <TextView style="@style/MealCardTitle" android:text="Makan Malam" android:textColor="@color/text_primary"/>
+                <ImageButton style="@style/AddMealButton" android:id="@+id/btn_add_dinner" android:background="@drawable/diary_add_meal_btn_bg"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_dinner"
                     style="@style/MealRecyclerView"
-                    android:layout_below="@id/btn_add_dinner"/>
+                    android:layout_below="@id/btn_add_dinner"
+                    android:layout_marginTop="8dp"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
