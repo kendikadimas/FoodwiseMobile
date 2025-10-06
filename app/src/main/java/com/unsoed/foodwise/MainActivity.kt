@@ -22,16 +22,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         // 1. Daftarkan semua item navigasi yang bisa diklik
-        navItems = listOf(binding.navHome, binding.navProgress, binding.navKuliner, binding.navRecipe)
+        navItems = listOf(binding.navHome, binding.navProgress, binding.navKuliner, binding.navRecipe, binding.navAdd)
         navItems.forEach { it.setOnClickListener(this) }
 
         // 2. Atur listener khusus untuk tombol FAB (+)
-        binding.fabAdd.setOnClickListener {
-            loadFragment(DiaryFragment())
-            // Nonaktifkan semua ikon lain karena FAB yang menjadi fokus
-            setActive(null)
-            Toast.makeText(this, "Membuka Halaman Catatan", Toast.LENGTH_SHORT).show()
-        }
+//        binding.fabAdd.setOnClickListener {
+//            loadFragment(DiaryFragment())
+//            // Nonaktifkan semua ikon lain karena FAB yang menjadi fokus
+//            setActive(null)
+//            Toast.makeText(this, "Membuka Halaman Catatan", Toast.LENGTH_SHORT).show()
+//        }
 
         // 3. Atur halaman awal saat aplikasi pertama kali dibuka
         if (savedInstanceState == null) {
@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.nav_progress -> ProgressFragment()
             R.id.nav_kuliner -> DiscoveryFragment()
             R.id.nav_recipe -> RecipeFragment()
+            R.id.nav_add -> DiaryFragment()
             else -> null
         }
 
@@ -68,20 +69,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setActive(activeView: View?) {
         // Loop melalui semua item navigasi
         navItems.forEach { navItem ->
-            val icon = navItem.getChildAt(0) as View // Bisa ImageView
-            val text = navItem.getChildAt(1) as TextView
+            // Pastikan item memiliki setidaknya satu child (yaitu ikon/gambar)
+            if (navItem.childCount > 0) {
+                val icon = navItem.getChildAt(0) // Ini bisa ImageView atau CardView
 
-            if (navItem == activeView) {
-                // Jika ini item yang aktif: ikon terang, teks muncul
-                icon.alpha = 1.0f
-                text.visibility = View.VISIBLE
-            } else {
-                // Jika tidak aktif: ikon redup, teks sembunyi
-                icon.alpha = 0.7f
-                text.visibility = View.GONE
+                val isActive = navItem == activeView
+
+                // Atur alpha (transparansi) untuk ikon
+                icon.alpha = if (isActive) 1.0f else 0.7f
+
+                // Cek apakah item ini memiliki TextView (child kedua)
+                if (navItem.childCount > 1) {
+                    val text = navItem.getChildAt(1) as? TextView
+                    // Tampilkan atau sembunyikan teks berdasarkan status aktif
+                    text?.visibility = if (isActive) View.VISIBLE else View.GONE
+                }
             }
         }
     }
+
 
     /**
      * Fungsi helper untuk mengganti Fragment di dalam container.

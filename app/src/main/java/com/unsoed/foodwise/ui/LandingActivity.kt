@@ -11,7 +11,7 @@ class LandingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLandingBinding
 
-    // Siapkan teks yang akan berubah sesuai slide
+    // Slogan yang akan berubah sesuai slide (di bawah gambar)
     private val slogans = listOf(
         "Lacak Kalorimu, Raih Tujuanmu.",
         "Temukan Nutrisi di Setiap Makanan.",
@@ -27,20 +27,18 @@ class LandingActivity : AppCompatActivity() {
         // 1. Setup Carousel (ViewPager2)
         binding.viewPager.adapter = CarouselAdapter()
 
-        // 2. Hubungkan Indikator Titik dengan Carousel
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            // Tidak perlu set teks atau ikon, hanya butuh titiknya
-        }.attach()
+        // 2. Set teks awal (slogan di bawah gambar)
+//        binding.tvSlogan.text = slogans[0]
 
-        // 3. Atur listener untuk mengubah teks saat slide digeser
+        // 3. Atur listener untuk mengubah teks slogan saat slide digeser
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.tvSlogan.text = slogans[position]
+//                binding.tvSlogan.text = slogans[position]
             }
         })
 
-        // 4. Atur listener untuk tombol
+        // 5. Atur listener untuk tombol
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }

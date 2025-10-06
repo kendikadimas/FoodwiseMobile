@@ -53,4 +53,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             giziDao.insertDailyLog(newLog) // Panggil DAO langsung
         }
     }
+
+    fun updateUserProfile(updatedProfile: UserProfile) {
+        viewModelScope.launch {
+            giziDao.insertOrUpdateUserProfile(updatedProfile)
+        }
+    }
+
+    fun deleteAllData() {
+        viewModelScope.launch {
+            giziDao.deleteAllData()
+        }
+    }
 }

@@ -1,33 +1,39 @@
 package com.unsoed.foodwise.ui
 
-import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.unsoed.foodwise.databinding.ItemCarouselPlaceholderBinding
+import com.unsoed.foodwise.R
 
-class CarouselAdapter : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
+class CarouselAdapter : RecyclerView.Adapter<CarouselAdapter.CarouselViewHolder>() {
 
-    // Daftar warna placeholder untuk 4 slide
-    private val colors = listOf(
-        Color.parseColor("#E0E0E0"), // Abu-abu
-        Color.parseColor("#C8E6C9"), // Hijau muda
-        Color.parseColor("#BBDEFB"), // Biru muda
-        Color.parseColor("#FFCCBC")  // Oranye muda
+    // Tambahkan gambar-gambar untuk carousel di sini
+    private val images = listOf(
+        R.drawable.ic_onboarding, // Ganti dengan nama file gambar kamu
+        R.drawable.ic_onboarding_2,
+        R.drawable.ic_onboarding_3,
+        R.drawable.ic_onboarding_4
     )
 
-    class ViewHolder(val binding: ItemCarouselPlaceholderBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemCarouselPlaceholderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_carousel, parent, false)
+        return CarouselViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Set warna background sesuai posisi slide
-        holder.binding.placeholderBackground.setBackgroundColor(colors[position])
+    override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
+        holder.bind(images[position])
     }
 
-    // Kita punya 4 slide
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = images.size
+
+    class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.iv_carousel)
+
+        fun bind(imageRes: Int) {
+            imageView.setImageResource(imageRes)
+        }
+    }
 }

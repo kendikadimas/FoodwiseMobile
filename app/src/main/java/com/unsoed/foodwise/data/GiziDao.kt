@@ -66,4 +66,19 @@ interface GiziDao {
     @Query("SELECT * FROM recipe_ingredients WHERE recipeId = :recipeId")
     suspend fun getIngredientsForRecipe(recipeId: Long): List<RecipeIngredient>
 
+    @Query("DELETE FROM user_profile")
+    suspend fun deleteUserProfile()
+
+    @Query("DELETE FROM daily_logs")
+    suspend fun deleteDailyLogs()
+
+    @Query("DELETE FROM weight_history")
+    suspend fun deleteWeightHistory()
+
+    @Transaction
+    suspend fun deleteAllData() {
+        deleteUserProfile()
+        deleteDailyLogs()
+        deleteWeightHistory()
+    }
 }
